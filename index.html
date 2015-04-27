@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>MovieRama | Olga Brani</title>
+        <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="stylesheets/main.css" />
+    </head>
+    <body class="row">
+
+        <h1>MovieRama</h1>
+
+        <div class="row collapse">
+            <div class="small-10 columns">
+                <input type="text" placeholder="Τype to search for a movie...">
+            </div>
+            <div class="small-2 columns">
+                <a href="#" class="button postfix" id="search">Search</a>
+            </div>
+        </div>
+        <div id="init-loader" class="loader">Fetching data... <i class="fa fa-spinner fa-spin"></i></div>    
+
+        <p id="error-message"></p>
+        <h5 id="theater-title"></h5>
+        <div id="results-theater"></div>
+        <h5 id="search-title"></h5>
+        <div id="results-search"></div>
+
+        <div id="loader" class="loader">Loading more movies... <i class="fa fa-spinner fa-spin"></i></div>
+    </body>
+
+    <script id="movies-template" type="text/x-handlebars-template">
+        <ul class="results">
+            {{#each movies}}
+                <li data-id={{id}}>
+                <div class="clearfix">
+
+                    <div class="lt">
+                        <img src="{{posters.thumbnail}}" alt="{{title}}" />
+                    </div>
+
+                    <div class="rt">
+                        <div class="reviews extras"></div>
+                        <div class="extras-loader loader">Fetching data... <i class="fa fa-spinner fa-spin"></i></div>
+                    </div>
+
+                    <div class="middle">
+
+                        <h2><a href="{{links.alternate}}" title="Visit movie page" target="_blank">{{title}}</a></h2>
+                        <div class="short-info">
+                            <div>
+                                {{default year 'Unknown release year'}} - 
+                                <i class="fa fa-clock-o"></i> {{default runtime '0'}} mins - 
+                                {{default ratings.audience_score '0'}}/100
+                            </div>
+                            <div>
+                                <em>Starring: </em>
+                                {{#if abridged_cast}}
+                                    <ul class="comma-separated">{{#each abridged_cast}}<li>{{name}}</li>{{/each}}</ul>
+                                {{else}}
+                                    Unknown
+                                {{/if}}
+                            </div>
+                            <p>{{synopsis}}</p>
+                        </div>
+
+                        <div class="details extras"></div>
+                    </div>
+
+                </div>
+            </li>
+            {{/each}}
+        </ul>
+    </script>
+    
+    <script id="movie-template" type="text/x-handlebars-template"> 
+        <ul class="genres">{{#each movie.genres}}<li>{{this}}</li>{{/each}}</ul>
+        <div class="info">
+            {{#if movie.release_dates.theater}}
+                {{format-date movie.release_dates.theater}}
+            {{else}}
+                {{default movie.year 'Unknown release year'}}
+            {{/if}} -
+            <i class="fa fa-clock-o"></i> {{default movie.runtime '0'}} mins - 
+            {{default movie.ratings.audience_score '0'}}/100
+        </div>
+        <div class="expanded-info">
+            <div>{{movie.synopsis}}</div>
+            <div>
+                <em>Director:</em> 
+                {{# if movie.abridged_directors}}
+                    <ul class="comma-separated">{{#each movie.abridged_directors}}<li>{{name}}</li>{{/each}}</ul>
+                {{else}}
+                    Unknown
+                {{/if}}
+            </div>
+            <div>
+                <em>Cast: </em>
+                {{#if movie.abridged_cast}}
+                    <ul class="comma-separated">{{#each movie.abridged_cast}}<li>{{name}}</li>{{/each}}</ul>
+                {{else}}
+                    Unknown
+                {{/if}}
+            </div>
+            <div>
+                {{#if similar}}
+                    <em>Similar movies: </em>
+                    {{#each similar}}
+                        <a href="{{links.alternate}}" title="Visit movie page" target="_blank">{{title}}</a> 
+                    {{/each}}
+                {{/if}}
+            </div>
+        </div>
+    </script>
+
+
+    <script id="reviews-template" type="text/x-handlebars-template">
+        <h3>Latest Reviews</h3>
+        {{#if reviews}}
+            {{#each reviews}}
+                <div class="review">
+                    <p>{{quote}}</p>
+                    <p class="info">{{default critic 'unknown'}} | {{default date 'unknown'}}</p>
+                </div>
+            {{/each}}
+        {{else}}
+            <p>No reviews available</p>
+        {{/if}}
+    </script>
+
+    <script src="js/jquery.js"></script>
+    <script src="js/underscore-min.js"></script>
+    <script src="js/handlebars.js"></script>
+    <script src="js/handlebars-helpers.js"></script>
+    <script src="js/app.js"></script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+          var options = {
+            country: 'uk'
+          }
+          // initialize new App Object
+          var app = new App(options);
+
+        });
+    </script>
+
+</html>

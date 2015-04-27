@@ -1,0 +1,140 @@
+/*
+*    Mixins
+*/
+
+@mixin separate-list($sign){
+    margin: 0;
+    li {
+        list-style: none outside none;
+        display: inline;
+        &::before {
+            content: $sign
+        }
+        &:first-child:before {
+            content: ''
+        }
+    }    
+}
+
+/*
+*   Layout
+*/
+
+.lt {
+    float: left;
+    width: 100px;
+}
+
+.middle {
+    overflow: hidden;
+}
+.open .middle {
+    overflow: visible;
+    width: 600px;
+}
+
+.rt {
+    float: right;
+    width: 300px;
+    margin-left: 50px;
+}
+
+/*
+*   Common
+*/
+
+h1 {
+    margin: 2rem 0;
+}
+
+em {
+    color: $primary-color;
+}
+
+
+
+
+
+.results {
+    margin: 0;
+    &> li {
+        @extend .panel;
+        position: relative;
+        list-style: none outside none;
+        &:hover {
+            cursor: pointer;
+            background-color: scale-color($white, $lightness: -9%);
+        }
+        img {
+            width: 62px;
+            max-width: 62px;
+            padding: 4px;
+            background-color: #fff;
+            margin: 0 1em 1em 0;
+        }
+        h2 {
+            a {
+                text-decoration: none;
+            }
+        }
+        .short-info {
+            div {
+                margin-bottom: 0.5em;
+            }
+        }
+        .info {
+            color: $info-color;
+        }
+        .comma-separated {
+            display: inline;
+            @include separate-list(', ');
+        }
+    }
+}
+
+.details {
+    .fa-spinner {
+        font-size: rem-calc(20);
+    }
+    .genres {
+        font-weight: bold;
+        @include separate-list(' - ');
+        margin-bottom: 0.5em;
+    }
+    .expanded-info {
+        clear: left;
+        div {
+            margin-bottom: 0.5em;
+        }
+    }
+}
+
+/*
+*   Loaders
+*/
+ 
+.loader {
+    display: none;
+    text-align: center;
+    color: $info-color;
+    padding-bottom: 30px;
+    i {
+        font-size: rem-calc(20);
+        margin: 0 20px;
+    }
+}
+
+#init-loader {
+    display: block;
+}
+
+#error-message {
+    display: none;
+}
+
+
+
+
+
+
+
